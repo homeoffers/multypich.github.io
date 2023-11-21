@@ -1,3 +1,31 @@
+<?php 
+session_start();
+$period_cookie = 2592000; // 30 дней (2592000 секунд)
+ 
+if($_GET){
+    setcookie("utm_source",$_GET['utm_source'],time()+$period_cookie);
+    setcookie("utm_medium",$_GET['utm_medium'],time()+$period_cookie);
+    setcookie("utm_term",$_GET['utm_term'],time()+$period_cookie);
+    setcookie("utm_content",$_GET['utm_content'],time()+$period_cookie);
+    setcookie("utm_campaign",$_GET['utm_campaign'],time()+$period_cookie);
+}
+ 
+if(!isset($_SESSION['utms'])) {
+    $_SESSION['utms'] = array();
+    $_SESSION['utms']['utm_source'] = '';
+    $_SESSION['utms']['utm_medium'] = '';
+    $_SESSION['utms']['utm_term'] = '';
+    $_SESSION['utms']['utm_content'] = '';
+    $_SESSION['utms']['utm_campaign'] = '';
+}
+$_SESSION['utms']['utm_source'] = $_GET['utm_source'] ? $_GET['utm_source'] : $_COOKIE['utm_source'];
+$_SESSION['utms']['utm_medium'] = $_GET['utm_medium'] ? $_GET['utm_medium'] : $_COOKIE['utm_medium'];
+$_SESSION['utms']['utm_term'] = $_GET['utm_term'] ? $_GET['utm_term'] : $_COOKIE['utm_term'];
+$_SESSION['utms']['utm_content'] = $_GET['utm_content'] ? $_GET['utm_content'] : $_COOKIE['utm_content'];
+$_SESSION['utms']['utm_campaign'] = $_GET['utm_campaign'] ? $_GET['utm_campaign'] : $_COOKIE['utm_campaign'];
+?>
+
+
 <!DOCTYPE html>
 <html lang="uk">
   <head>
@@ -358,9 +386,9 @@
         <form
           id="order_form"
           class="order_form"
-          action="ok.php"
+          action="submit/zakaz.php"
           method="POST"
-          name="order-form"
+          name="ok"
         >
           <input
             class="field"
